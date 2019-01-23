@@ -3,6 +3,7 @@ package com.kojin15.workbenchplus
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_ID
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_NAME
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_VERSION
+import com.kojin15.workbenchplus.block.BlockWorkbenchPlus
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.ModMetadata
 import net.minecraftforge.fml.common.SidedProxy
@@ -52,5 +53,9 @@ object WorkbenchPlus {
     @Mod.EventHandler
     fun postInit(event: FMLPostInitializationEvent) {
         PROXY.postInit()
+    }
+
+    object Blocks {
+        @JvmField val workbenchplus = BlockWorkbenchPlus().setRegistryName(MOD_ID, "workbenchplus")
     }
 }
