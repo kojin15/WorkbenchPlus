@@ -4,6 +4,13 @@ import com.kojin15.workbenchplus.WorkbenchPlus.MOD_ID
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_NAME
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_VERSION
 import com.kojin15.workbenchplus.block.BlockWorkbenchPlus
+import com.kojin15.workbenchplus.gui.ContainerWorkbenchPlus
+import com.kojin15.workbenchplus.gui.GuiWorkbenchPlus
+import com.kojin15.workbenchplus.tile.TileWorkbenchPlus
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.TextComponentTranslation
+import net.minecraft.world.World
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.ModMetadata
 import net.minecraftforge.fml.common.SidedProxy
@@ -11,6 +18,7 @@ import net.minecraftforge.fml.common.event.FMLConstructionEvent
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
+import net.minecraftforge.fml.common.network.IGuiHandler
 
 /**
  * @author kojin15.
@@ -58,4 +66,26 @@ object WorkbenchPlus {
     object Blocks {
         @JvmField val workbenchplus = BlockWorkbenchPlus().setRegistryName(MOD_ID, "workbenchplus")
     }
+}
+
+object WPGuiHandler : IGuiHandler {
+    val GUI_ID_WORKBENCHPLUS = 1
+
+    override fun getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any? {
+        return when (ID) {
+            GUI_ID_WORKBENCHPLUS -> GuiWorkbenchPlus(world.getTileEntity(BlockPos(x, y, z)) as TileWorkbenchPlus, player)
+            else -> null
+        }
+    }
+
+    override fun getServerGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any? {
+        return when (ID) {
+            GUI_ID_WORKBENCHPLUS -> ContainerWorkbenchPlus(world.getTileEntity(BlockPos(x, y, z)) as TileWorkbenchPlus, player)
+            else -> null
+        }
+    }
+}
+
+object Translator {
+    fun translateToLocal(key: String): String = TextComponentTranslation(key).formattedText
 }
