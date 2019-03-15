@@ -32,7 +32,7 @@ compileKotlin{
 sourceCompatibility = targetCompatibility = "1.8"
 
 minecraft {
-    version = "1.12.2-14.23.5.2768"
+    version = "1.12.2-14.23.5.2820"
     runDir = "run"
     mappings = "snapshot_20171003"
     makeObfSourceJar = false
@@ -80,6 +80,4 @@ jar {
     manifest {
         attributes 'FMLAT': 'advancedindustries_at.cfg'
     }
-    from sourceSets.main.allSource
-    from sourceSets.api.allSource
 }
