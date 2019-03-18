@@ -18,11 +18,12 @@ class SlotCraftingRefill(player: EntityPlayer, private val matrix: InventoryCraf
 
     private fun findMatch(stack: ItemStack, recipe: IRecipe): Int {
         for (i in 0 until provider.getSize()) {
-            val p_stack = provider.getStackInSlot(i)
-            if (!p_stack.isEmpty) {
-                if (OreDictionary.itemMatches(stack, p_stack, false)) return i
-                recipe.ingredients.forEach {
-                    if (it.apply(stack) && it.apply(p_stack)) return i
+            provider.getStackInSlot(i).let { p ->
+                if (!p.isEmpty) {
+                    if (OreDictionary.itemMatches(stack, p, false)) return i
+                    recipe.ingredients.forEach {
+                        if (it.apply(stack) && it.apply(p)) return i
+                    }
                 }
             }
         }

@@ -84,7 +84,7 @@ class ContainerWorkbenchPlus(private val tile: TileWorkbenchPlus,private val  pl
         return slotIn.inventory !== this.craftResult && super.canMergeSlot(stack, slotIn)
     }
 
-    override fun transferStackInSlot(playerIn: EntityPlayer?, index: Int): ItemStack {
+    override fun transferStackInSlot(playerIn: EntityPlayer, index: Int): ItemStack {
         val slot = inventorySlots[index]
         if (!slot.hasStack || slot.stack.isEmpty) return ItemStack.EMPTY
         val itemStack = slot.stack
