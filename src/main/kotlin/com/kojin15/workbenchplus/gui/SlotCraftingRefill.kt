@@ -17,13 +17,13 @@ class SlotCraftingRefill(player: EntityPlayer, private val matrix: InventoryCraf
         SlotCrafting(player, matrix, result, index, x, y) {
 
     private fun findMatch(stack: ItemStack, recipe: IRecipe): Int {
-        for (i in 0 until provider.getSize()) {
-            provider.getStackInSlot(i).let { p ->
-                if (!p.isEmpty) {
-                    if (OreDictionary.itemMatches(stack, p, false)) return i
-                    recipe.ingredients.forEach {
-                        if (it.apply(stack) && it.apply(p)) return i
-                    }
+        provider.forEachIndexed { i, p ->
+            if (!p.isEmpty && OreDictionary.itemMatches(stack, p, false)) return i
+        }
+        provider.forEachIndexed { i, p ->
+            if (!p.isEmpty) {
+                recipe.ingredients.forEach {
+                    if (it.apply(stack) && it.apply(p)) return i
                 }
             }
         }
