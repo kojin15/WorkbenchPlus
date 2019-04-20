@@ -1,10 +1,9 @@
 package com.kojin15.workbenchplus.gui
 
-import com.kojin15.workbenchplus.Translator
 import com.kojin15.workbenchplus.WorkbenchPlus
 import com.kojin15.workbenchplus.tile.TileWorkbenchPlus
+import com.kojin15.workbenchplus.util.Translator
 import net.minecraft.client.gui.inventory.GuiContainer
-import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.inventory.*
 import net.minecraft.item.ItemStack

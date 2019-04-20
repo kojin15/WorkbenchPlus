@@ -2,6 +2,7 @@ package com.kojin15.workbenchplus
 
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_ID
 import com.kojin15.workbenchplus.gui.ContainerWorkbenchPlus
+import com.kojin15.workbenchplus.gui.WPGuiHandler
 import com.kojin15.workbenchplus.tile.TileWorkbenchPlus
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemBlock

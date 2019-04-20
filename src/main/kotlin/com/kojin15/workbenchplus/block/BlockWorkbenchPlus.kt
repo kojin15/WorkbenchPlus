@@ -1,6 +1,6 @@
 package com.kojin15.workbenchplus.block
 
-import com.kojin15.workbenchplus.WPGuiHandler
+import com.kojin15.workbenchplus.gui.WPGuiHandler
 import com.kojin15.workbenchplus.WorkbenchPlus
 import com.kojin15.workbenchplus.tile.TileWorkbenchPlus
 import net.minecraft.block.BlockContainer

@@ -11,14 +11,15 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.TextComponentTranslation
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.common.ModMetadata
-import net.minecraftforge.fml.common.SidedProxy
+import net.minecraftforge.fml.common.*
 import net.minecraftforge.fml.common.event.FMLConstructionEvent
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.network.IGuiHandler
+import net.minecraftforge.fml.relauncher.Side
+import java.lang.reflect.Field
+import java.lang.reflect.Method
 
 /**
  * @author kojin15.
@@ -29,7 +30,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler
 object WorkbenchPlus {
     const val MOD_ID = "workbenchplus"
     const val MOD_NAME = "Workbench Plus"
-    const val MOD_VERSION = "1.0.0"
+    const val MOD_VERSION = "1.0.1"
 
     @Mod.Metadata
     private lateinit var METADATA: ModMetadata
@@ -68,24 +69,16 @@ object WorkbenchPlus {
     }
 }
 
-object WPGuiHandler : IGuiHandler {
-    val GUI_ID_WORKBENCHPLUS = 1
+class KotlinAdapter : ILanguageAdapter {
+    override fun supportsStatics(): Boolean = false
 
-    override fun getClientGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any? {
-        return when (ID) {
-            GUI_ID_WORKBENCHPLUS -> GuiWorkbenchPlus(world.getTileEntity(BlockPos(x, y, z)) as TileWorkbenchPlus, player)
-            else -> null
-        }
+    override fun setProxy(target: Field, proxyTarget: Class<*>, proxy: Any) {
+        target.set(proxyTarget.kotlin.objectInstance, proxy)
     }
 
-    override fun getServerGuiElement(ID: Int, player: EntityPlayer, world: World, x: Int, y: Int, z: Int): Any? {
-        return when (ID) {
-            GUI_ID_WORKBENCHPLUS -> ContainerWorkbenchPlus(world.getTileEntity(BlockPos(x, y, z)) as TileWorkbenchPlus, player)
-            else -> null
-        }
+    override fun getNewInstance(container: FMLModContainer, objectClass: Class<*>, classLoader: ClassLoader, factoryMarkedAnnotation: Method?): Any? {
+        return objectClass.kotlin.objectInstance ?: objectClass.newInstance()
     }
-}
 
-object Translator {
-    fun translateToLocal(key: String): String = TextComponentTranslation(key).formattedText
+    override fun setInternalProxies(mod: ModContainer?, side: Side?, loader: ClassLoader?) = Unit
 }
