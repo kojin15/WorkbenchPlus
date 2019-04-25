@@ -14,7 +14,7 @@ import net.minecraftforge.items.ItemStackHandler
  * @author kojin15.
  */
 class TileWorkbenchPlus : TileEntity(), ISidedInventory {
-    val inventory = ItemStackHandler(37)
+    val inventory = ItemStackHandler(28)
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
         compound.setTag("inventory", inventory.serializeNBT())
@@ -61,7 +61,7 @@ class TileWorkbenchPlus : TileEntity(), ISidedInventory {
         inventory.setStackInSlot(index, stack)
     }
 
-    override fun getStackInSlot(index: Int): ItemStack? = inventory.getStackInSlot(index)
+    override fun getStackInSlot(index: Int): ItemStack = inventory.getStackInSlot(index)
     override fun getName(): String = "Workbench Plus"
     override fun getInventoryStackLimit(): Int = 64
     override fun openInventory(player: EntityPlayer?) {}
@@ -74,10 +74,10 @@ class TileWorkbenchPlus : TileEntity(), ISidedInventory {
     override fun setField(id: Int, value: Int) {}
     override fun isUsableByPlayer(player: EntityPlayer): Boolean = true
     override fun getSlotsForFace(side: EnumFacing?): IntArray {
-        return (0..36).toList().toIntArray()
+        return (0..27).toList().toIntArray()
     }
 
-    override fun canExtractItem(index: Int, stack: ItemStack?, direction: EnumFacing?): Boolean = index == 36 && direction == EnumFacing.DOWN
-    override fun canInsertItem(index: Int, itemStackIn: ItemStack?, direction: EnumFacing?): Boolean = index in (9 until 36)
+    override fun canExtractItem(index: Int, stack: ItemStack?, direction: EnumFacing?): Boolean = index == 27 && direction == EnumFacing.DOWN
+    override fun canInsertItem(index: Int, itemStackIn: ItemStack?, direction: EnumFacing?): Boolean = index in (0 until 27)
 
 }
