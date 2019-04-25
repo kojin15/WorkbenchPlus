@@ -55,20 +55,14 @@ class GuiWorkbenchPlus(tile: TileWorkbenchPlus, player: EntityPlayer) : GuiConta
 class ContainerWorkbenchPlus(private val tile: TileWorkbenchPlus,private val  player: EntityPlayer) : Container() {
     private val craftMatrix = InventoryCrafting(this, 3, 3)
     private val craftResult = InventoryCraftResult()
-    private val provider = CraftingResourcesProvider(tile, 9, 35)
+    private val provider = CraftingResourcesProvider(tile, 0, 26)
     init {
-        if (!player.worldObj.isRemote) {
-            for (i in 0..8) {
-                craftMatrix.setInventorySlotContents(i, tile.getStackInSlot(i))
-                tile.setInventorySlotContents(i, null)
-            }
-        }
         addSlotToContainer(SlotCraftingRefill(player, craftMatrix, craftResult, provider, this, 0, 120, 36))
 
         for (i in 0..8) {
             addSlotToContainer(Slot(craftMatrix, i, 26 + (i % 3) * 18, 18 + (i / 3) * 18))
         }
-        var index = 9
+        var index = 0
         for (i in 0..2) {
             for (j in 0..8) {
                 addSlotToContainer(Slot(tile, index++, 8 + j * 18, 90 + i * 18))
@@ -95,8 +89,15 @@ class ContainerWorkbenchPlus(private val tile: TileWorkbenchPlus,private val  pl
         craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, player.worldObj))
     }
 
-    override fun func_94530_a(p_94530_1_: ItemStack?, p_94530_2_: Slot?): Boolean {
-        return super.func_94530_a(p_94530_1_, p_94530_2_)
+    override fun onContainerClosed(playerIn: EntityPlayer) {
+        super.onContainerClosed(playerIn)
+        if (!player.worldObj.isRemote) {
+            for (i in 0 until 9) {
+                this.craftMatrix.getStackInSlotOnClosing(i)?.let {
+                    playerIn.dropPlayerItemWithRandomChoice(it, false)
+                }
+            }
+        }
     }
 
     override fun transferStackInSlot(playerIn: EntityPlayer, index: Int): ItemStack? {

@@ -32,7 +32,7 @@ import kotlin.experimental.and
  * @author kojin15.
  */
 class TileWorkbenchPlus : TileEntity(), ISidedInventory {
-    private var inventory = arrayOfNulls<ItemStack>(37)
+    private var inventory = arrayOfNulls<ItemStack>(28)
 
     override fun writeToNBT(nbt: NBTTagCompound) {
         super.writeToNBT(nbt)
@@ -97,7 +97,11 @@ class TileWorkbenchPlus : TileEntity(), ISidedInventory {
 
     override fun getStackInSlot(index: Int): ItemStack? = inventory[index]
 
-    override fun getStackInSlotOnClosing(index: Int): ItemStack? = null
+    override fun getStackInSlotOnClosing(index: Int): ItemStack? {
+        val stack = this.inventory[index] ?: return null
+        this.inventory[index] = null
+        return stack
+    }
 
     override fun getInventoryName(): String = "Workbench Plus"
     override fun getInventoryStackLimit(): Int = 64
@@ -109,11 +113,11 @@ class TileWorkbenchPlus : TileEntity(), ISidedInventory {
     override fun isUseableByPlayer(player: EntityPlayer?): Boolean = true
 
     override fun getAccessibleSlotsFromSide(direction: Int): IntArray =
-            (0..36).toList().toIntArray()
+            (0..27).toList().toIntArray()
 
     override fun canInsertItem(index: Int, stack: ItemStack?, direction: Int): Boolean =
-            index == 36 && ForgeDirection.getOrientation(direction) == ForgeDirection.DOWN
+            index == 27 && ForgeDirection.getOrientation(direction) == ForgeDirection.DOWN
 
     override fun canExtractItem(index: Int, itemStackIn: ItemStack?, direction: Int): Boolean =
-            index in 9 until 36
+            index in 0 until 27
 }
