@@ -42,17 +42,12 @@ class ContainerWorkbenchPlus(private val tile: TileWorkbenchPlus,private val  pl
     private val craftResult = InventoryCraftResult()
     private val provider = CraftingResourcesProvider(tile, 9, 35)
     init {
-        if (!player.world.isRemote) {
-            for (i in 0..8) {
-                craftMatrix.setInventorySlotContents(i, tile.removeStackFromSlot(i))
-            }
-        }
         addSlotToContainer(SlotCraftingRefill(player, craftMatrix, craftResult, provider, this, 0, 120, 36))
 
         for (i in 0..8) {
             addSlotToContainer(Slot(craftMatrix, i, 26 + (i % 3) * 18, 18 + (i / 3) * 18))
         }
-        var index = 9
+        var index = 0
         for (i in 0..2) {
             for (j in 0..8) {
                 addSlotToContainer(SlotItemHandler(tile.inventory, index++, 8 + j * 18, 90 + i * 18))
@@ -77,6 +72,13 @@ class ContainerWorkbenchPlus(private val tile: TileWorkbenchPlus,private val  pl
 
     override fun onCraftMatrixChanged(inventoryIn: IInventory) {
         craftResult.setInventorySlotContents(0, CraftingManager.findMatchingResult(this.craftMatrix, player.world))
+    }
+
+    override fun onContainerClosed(playerIn: EntityPlayer) {
+        super.onContainerClosed(playerIn)
+        if (!player.world.isRemote) {
+            this.clearContainer(playerIn, player.world, this.craftMatrix)
+        }
     }
 
     override fun canMergeSlot(stack: ItemStack, slotIn: Slot): Boolean {
