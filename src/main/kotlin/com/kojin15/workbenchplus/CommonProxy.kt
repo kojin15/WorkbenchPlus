@@ -16,12 +16,24 @@
 
 package com.kojin15.workbenchplus
 
+import com.kojin15.workbenchplus.gui.WPGuiHandler
+import com.kojin15.workbenchplus.tile.TileWorkbenchPlus
+import cpw.mods.fml.common.network.NetworkRegistry
+import cpw.mods.fml.common.registry.GameRegistry
 import cpw.mods.fml.relauncher.Side
 
 abstract class CommonProxy {
     abstract val side: Side
 
-    open fun preInit() = Unit
-    open fun init() = Unit
+    open fun preInit() {
+        GameRegistry.registerBlock(WorkbenchPlus.Blocks.workbenchplus, "workbenchplus")
+    }
+
+    open fun init() {
+        GameRegistry.registerTileEntity(TileWorkbenchPlus::class.java, "workbenchplus")
+
+        NetworkRegistry.INSTANCE.registerGuiHandler(WorkbenchPlus, WPGuiHandler)
+    }
+
     open fun postInit() = Unit
 }

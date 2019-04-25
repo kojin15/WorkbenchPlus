@@ -19,6 +19,7 @@ package com.kojin15.workbenchplus
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_ID
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_NAME
 import com.kojin15.workbenchplus.WorkbenchPlus.MOD_VERSION
+import com.kojin15.workbenchplus.block.BlockWorkbenchPlus
 import cpw.mods.fml.common.*
 import cpw.mods.fml.common.event.FMLConstructionEvent
 import cpw.mods.fml.common.event.FMLInitializationEvent
@@ -66,6 +67,10 @@ object WorkbenchPlus {
     @Mod.EventHandler
     fun postInit(event: FMLPostInitializationEvent) {
         PROXY.postInit()
+    }
+
+    object Blocks {
+        @JvmField val workbenchplus = BlockWorkbenchPlus()
     }
 }
 
