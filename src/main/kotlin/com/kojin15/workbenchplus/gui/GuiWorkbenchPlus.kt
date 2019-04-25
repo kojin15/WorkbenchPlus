@@ -40,7 +40,7 @@ class GuiWorkbenchPlus(tile: TileWorkbenchPlus, player: EntityPlayer) : GuiConta
 class ContainerWorkbenchPlus(private val tile: TileWorkbenchPlus,private val  player: EntityPlayer) : Container() {
     private val craftMatrix = InventoryCrafting(this, 3, 3)
     private val craftResult = InventoryCraftResult()
-    private val provider = CraftingResourcesProvider(tile, 9, 35)
+    private val provider = CraftingResourcesProvider(tile, 0, 26)
     init {
         addSlotToContainer(SlotCraftingRefill(player, craftMatrix, craftResult, provider, this, 0, 120, 36))
 
