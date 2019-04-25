@@ -30,7 +30,7 @@ import java.lang.reflect.Method
 object WorkbenchPlus {
     const val MOD_ID = "workbenchplus"
     const val MOD_NAME = "Workbench Plus"
-    const val MOD_VERSION = "1.0.1"
+    const val MOD_VERSION = "1.0.2"
 
     @Mod.Metadata
     private lateinit var METADATA: ModMetadata
