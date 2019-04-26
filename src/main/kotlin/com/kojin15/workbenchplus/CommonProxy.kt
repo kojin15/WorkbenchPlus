@@ -21,6 +21,9 @@ import com.kojin15.workbenchplus.tile.TileWorkbenchPlus
 import cpw.mods.fml.common.network.NetworkRegistry
 import cpw.mods.fml.common.registry.GameRegistry
 import cpw.mods.fml.relauncher.Side
+import net.minecraft.init.Blocks
+import net.minecraftforge.oredict.OreDictionary
+import net.minecraftforge.oredict.ShapedOreRecipe
 
 /**
  * @author kojin15.
@@ -38,5 +41,12 @@ abstract class CommonProxy {
         NetworkRegistry.INSTANCE.registerGuiHandler(WorkbenchPlus, WPGuiHandler)
     }
 
-    open fun postInit() = Unit
+    open fun postInit() {
+        val iron = if (OreDictionary.doesOreNameExist("plateIron")) "plateIron" else "ingotIron"
+        GameRegistry.addRecipe(ShapedOreRecipe(WorkbenchPlus.Blocks.workbenchplus,
+                "ABA",
+                "ACA",
+                "ADA",
+                'A', iron, 'B', Blocks.trapdoor, 'C', Blocks.crafting_table, 'D', Blocks.chest))
+    }
 }
