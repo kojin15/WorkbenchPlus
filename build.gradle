@@ -55,6 +55,11 @@ dependencies {
 
 jar {
     from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
+
+    manifest {
+        attributes "FMLCorePlugin": "com.kojin15.workbenchplus.CorePlugin"
+        attributes "FMLCorePluginContainsFMLMod": "true"
+    }
 }
 
 processResources {
